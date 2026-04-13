@@ -184,30 +184,30 @@ check_backhaul() {
                     
                     # 是 IP 地址，使用 API 查询地理位置
                     if command -v curl &> /dev/null; then
-                        # 获取国家信息
-                        country=$(curl -s "https://ipinfo.io/$host/country" 2>/dev/null)
+                        # 获取国家信息（添加超时设置）
+                        country=$(curl -s --max-time 5 "https://ipinfo.io/$host/country" 2>/dev/null)
                         # 检查返回结果是否是错误信息
                         if [ -z "$country" ]; then
-                            location="$host"
+                            location="API查询超时"
                         elif [[ "$country" =~ "status" ]] && [[ "$country" =~ "error" ]]; then
                             # 检查是否是API限流错误
                             if [[ "$country" =~ "429" ]] || [[ "$country" =~ "Rate limit" ]]; then
                                 location="API查询受限"
                             else
-                                location="$host"
+                                location="API查询超时"
                             fi
                         else
                             if [ "$country" = "CN" ]; then
-                                # 中国显示城市
-                                city=$(curl -s "https://ipinfo.io/$host/city" 2>/dev/null)
+                                # 中国显示城市（添加超时设置）
+                                city=$(curl -s --max-time 5 "https://ipinfo.io/$host/city" 2>/dev/null)
                                 if [ -z "$city" ]; then
-                                    location="$host"
+                                    location="API查询超时"
                                 elif [[ "$city" =~ "status" ]] && [[ "$city" =~ "error" ]]; then
                                     # 检查是否是API限流错误
                                     if [[ "$city" =~ "429" ]] || [[ "$city" =~ "Rate limit" ]]; then
                                         location="API查询受限"
                                     else
-                                        location="$host"
+                                        location="API查询超时"
                                     fi
                                 else
                                     # 英文城市名转中文
@@ -222,17 +222,17 @@ check_backhaul() {
                                     esac
                                 fi
                             else
-                                # 国外和港澳台显示
-                                country_name=$(curl -s "https://ipinfo.io/$host/country" 2>/dev/null)
+                                # 国外和港澳台显示（添加超时设置）
+                                country_name=$(curl -s --max-time 5 "https://ipinfo.io/$host/country" 2>/dev/null)
                                 # 检查返回结果是否是错误信息
                                 if [ -z "$country_name" ]; then
-                                    location="$host"
+                                    location="API查询超时"
                                 elif [[ "$country_name" =~ "status" ]] && [[ "$country_name" =~ "error" ]]; then
                                     # 检查是否是API限流错误
                                     if [[ "$country_name" =~ "429" ]] || [[ "$country_name" =~ "Rate limit" ]]; then
                                         location="API查询受限"
                                     else
-                                        location="$host"
+                                        location="API查询超时"
                                     fi
                                 else
                                     # 国家代码转中文

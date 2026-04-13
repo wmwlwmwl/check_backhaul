@@ -140,8 +140,7 @@ check_backhaul() {
     last_geo=""
     last_as=""
     
-    # 检查 curl 是否可用
-    has_curl=$(command -v curl &> /dev/null && echo "true" || echo "false")
+
     
     # 逐行处理 mtr 输出（使用进程替换避免子 shell 问题）
     while read -r line; do
@@ -182,7 +181,7 @@ check_backhaul() {
                     fi
                     
                     # 是 IP 地址，使用 API 查询地理位置
-                    if [ "$has_curl" = "true" ]; then
+                    if command -v curl &> /dev/null; then
                         # 获取国家信息
                         country=$(curl -s "https://ipinfo.io/$host/country" 2>/dev/null)
                         # 检查返回结果是否是错误信息

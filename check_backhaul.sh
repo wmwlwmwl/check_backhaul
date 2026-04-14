@@ -216,6 +216,7 @@ check_backhaul() {
                                         "Beijing") location="北京" ;;
                                         "Guangzhou") location="广州" ;;
                                         "Shenzhen") location="深圳" ;;
+                                        "Bao'an") location="深圳" ;;
                                         "Tianjin") location="天津" ;;
                                         "Jinrongjie") location="金融街" ;;
                                         *) location="$city" ;;

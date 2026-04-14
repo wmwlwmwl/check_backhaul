@@ -214,11 +214,12 @@ check_backhaul() {
                                     case "$city" in
                                         "Shanghai") location="上海" ;;
                                         "Beijing") location="北京" ;;
+                                        "Changping") location="北京" ;;
+                                        "Jinrongjie") location="北京" ;;
                                         "Guangzhou") location="广州" ;;
                                         "Shenzhen") location="深圳" ;;
                                         "Bao'an") location="深圳" ;;
                                         "Tianjin") location="天津" ;;
-                                        "Jinrongjie") location="金融街" ;;
                                         *) location="$city" ;;
                                     esac
                                 fi
